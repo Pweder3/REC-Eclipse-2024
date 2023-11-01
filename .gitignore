@@ -7,3 +7,11 @@ Desktop.ini
 
 # Visual Studio Code
 .vscode/
+
+# Python cache
+__pycache__/
+pycache/
+*.pyc
+*.pyo
+*.pyd
+
