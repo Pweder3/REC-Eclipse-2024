@@ -1,13 +1,14 @@
 from codrone_edu.drone import *
+from DroneHandler import DroneHandler
 
+droneManager = DroneHandler(Drone())
 
 try:
     drone = Drone()
     drone.pair()
     drone.takeoff()
-    data = drone.get_position_data()
-    
-    drone.square(60,.5)
+    droneManager.move((0,0,0))
+    droneManager.update()
     drone.land()
     drone.close()
 

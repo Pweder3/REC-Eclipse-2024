@@ -8,16 +8,28 @@ class DroneHandler():
         self.drone = drone
         self.curPos = (0,0,0) # x,y,z
         self.curRot = (0,0,0) # yaw, pitch, roll
-
-        xPidData = (0,0,0) # Kp, Ki, Kd
-        yPidData = (0,0,0)
+        self.curTarget = (0,0,0) # x,y,z
+        
+        pitchPidData = (0,0,0) # Kp, Ki, Kd
         zPidData = (0,0,0)
+        rollPidData = (0,0,0)
 
-        self.pidList = [PID(xPidData),PID(yPidData),PID(zPidData)]
+        self.xPid = PID(rollPidData[0],rollPidData[1],rollPidData[2], setpoint=0)
+        self.yPid = PID(pitchPidData[0], pitchPidData[1], pitchPidData[2], setpoint=0)
+        self.zPid = PID(zPidData[0],zPidData[1],zPidData[2], setpoint=0)  
+        
+        self.pidList = [self.zPid,self.yPid,self.xPid]
         
 
-    def move(relPos):
-        pass
+    def move(self,relPos):
+        
+        self.curTarget = relPos
+        
+        self.drone.set_pitch(self.yPid(relPos[1]))
+        self.drone.set_roll (self.xPid(relPos[0]))
+        self.drone.set_throttle(self.zPid(relPos[2]))
+        self.drone.move(.01)
+        
         
     def update(self):
         posData = self.drone.get_position_data()
