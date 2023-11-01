@@ -28,7 +28,7 @@ class DroneHandler():
         self.curTarget = relPos
         
         for i,pid in enumerate(self.pidList):
-            pid.setpoint = [relPos[i]]
+            pid.setpoint = relPos[i]
         
         print(self.yPid(0))
         self.drone.set_pitch(self.yPid(self.curPos[1]))
