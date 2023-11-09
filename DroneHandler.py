@@ -30,19 +30,21 @@ class DroneHandler():
         for i,pid in enumerate(self.pidList):
             pid.setpoint = relPos[i]
         
-        print(self.yPid(0))
+        
         self.drone.set_pitch(self.yPid(self.curPos[1]))
         self.drone.set_roll (self.xPid(self.curPos[0]))
         self.drone.set_throttle(self.zPid(self.curPos[2]))
         self.drone.move(.01)
         
         
-    def update(self):
-        posData = self.drone.get_position_data()
+    def update(self, data  = None):
+        posData = data if data != None else self.drone.get_position_data()
         self.curPos = (posData[1],posData[2],posData[3])
         self.curRot = self.drone.get_position_data()
     
-    def getPrintData(self):
-        return (self.curTarget,self.curPos,self.curRot)
+    def getPrintData(self,pV):
+        return (self.pidList[pV].setpoint,self.pidList[pV](self.curPos[pV]))
     
 
+    def getCurPos(self):
+        return self.curPos  
