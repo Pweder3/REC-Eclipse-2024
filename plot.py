@@ -60,8 +60,8 @@ class Plot():
         
         # maxVal = max([max(y) for y in self.yData ])
         # minVal = min([min(y) for y in self.yData ])
-        maxVal = 5
-        minVal = -5
+        maxVal = 2
+        minVal = -2
             
         for line in self.Lines:
             self.ax.draw_artist(line)

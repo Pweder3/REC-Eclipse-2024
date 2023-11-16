@@ -10,15 +10,15 @@ class DroneHandler():
         self.curRot = (0,0,0) # yaw, pitch, roll
         self.curTarget = (0,0,0) # x,y,z
         
-        pitchPidData = (1,0,0) # Kp, Ki, Kd
-        zPidData = (1,0,0)
-        rollPidData = (1,0,0)
+        pitchPidData = (3,0,0) # Kp, Ki, Kd
+        zPidData = (3,0,0)
+        rollPidData = (10,0,0)
 
         self.xPid = PID(rollPidData[0],rollPidData[1],rollPidData[2], setpoint=0)
         self.yPid = PID(pitchPidData[0], pitchPidData[1], pitchPidData[2], setpoint=0)
         self.zPid = PID(zPidData[0],zPidData[1],zPidData[2], setpoint=0)  
         
-        print(self.yPid(0))
+        
         
         self.pidList = [self.zPid,self.yPid,self.xPid]
         
@@ -30,11 +30,11 @@ class DroneHandler():
         for i,pid in enumerate(self.pidList):
             pid.setpoint = relPos[i]
         
-        
+        print(self.curPos)
         self.drone.set_pitch(self.yPid(self.curPos[1]))
         self.drone.set_roll (self.xPid(self.curPos[0]))
         self.drone.set_throttle(self.zPid(self.curPos[2]))
-        self.drone.move(.01)
+        self.drone.move()
         
         
     def update(self, data  = None):
@@ -43,7 +43,7 @@ class DroneHandler():
         self.curRot = self.drone.get_position_data()
     
     def getPrintData(self,pV):
-        return (self.pidList[pV].setpoint,self.pidList[pV](self.curPos[pV]))
+        return (self.pidList[pV].setpoint,self.pidList[pV].setpoint - self.curPos[pV],self.pidList[pV](self.curPos[pV]))
     
 
     def getCurPos(self):
