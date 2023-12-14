@@ -5,9 +5,9 @@ from LiveGraph import LiveGraph
 
 #plotData = [grain,dataAmount,dataNames,overAllName,colors]
 
-lg = LiveGraph(([10,3,["input","output","pidOut"],"xPid",["r","b","g"]],
-                [10,3,["input","output","pidOut"],"yPid",["k","g","y"]],
-                [10,3,["input","output","pidOut"],"zPid",["y","m","violet"]]))
+lg = LiveGraph(([10,3,["input","Pos","pidOut"],"xPid",["r","b","g"]],
+                [10,3,["input","Pos","pidOut"],"yPid",["k","g","y"]],
+                [10,3,["input","Pos","pidOut"],"zPid",["y","m","violet"]]))
 lg.interactiveMode()
 droneManager = DroneHandler(Drone())
 
@@ -17,7 +17,7 @@ try:
     drone.pair()
     drone.takeoff()
     while  not drone.r2_pressed():
-        droneManager.move((0,0,1))
+        droneManager.move((0,0,1.8))
         droneManager.update(drone.get_position_data())
         
         

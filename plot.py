@@ -60,7 +60,7 @@ class Plot():
         
         # maxVal = max([max(y) for y in self.yData ])
         # minVal = min([min(y) for y in self.yData ])
-        maxVal = 2
+        maxVal = 10
         minVal = -2
             
         for line in self.Lines:
