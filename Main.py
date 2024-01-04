@@ -20,7 +20,6 @@ try:
         droneManager.move((0,0,1.8))
         droneManager.update(drone.get_position_data())
         
-        
         lg.update([droneManager.getPrintData(0),droneManager.getPrintData(1),droneManager.getPrintData(2)])
         
         # drone.hover(.01)
