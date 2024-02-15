@@ -6,7 +6,7 @@ import numpy as np
 import math
 class Plot():
     
-    def __init__(self,fig,ax,grain,dataAmount,dataNames,names,colors ) -> None:
+    def __init__(self,fig,ax,grain,dataAmount,dataNames,plot_names,colors ) -> None:
         
         
 
@@ -15,7 +15,7 @@ class Plot():
         self.grain = grain
         
         
-        self.names = names
+        self.names = plot_names
         self.color = colors
         
         self.xData = range(grain)
@@ -24,7 +24,7 @@ class Plot():
         self.Lines = []
         
         
-        for i in range(dataAmount):
+        for i in range(len(dataNames)):
             self.yData.append([0] * grain ) 
             
             ln, = self.ax.plot(self.xData,self.yData[i] , animated=False,label=dataNames[i], color=colors[i])
@@ -65,7 +65,12 @@ class Plot():
             
         for line in self.Lines:
             self.ax.draw_artist(line)
+            # self.ax.relim()
+            maxVal = max(maxVal,max(line.get_ydata()))
+            minVal = min(minVal,min(line.get_ydata()))
             self.ax.axis([0,self.grain,minVal,maxVal])
+            
+            
             
         self.ax.set_title(self.names)
         self.ax.legend()
