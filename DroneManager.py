@@ -7,6 +7,9 @@ import time
 class DroneHandler():
     
     def __init__(self,drone) -> None:
+        
+        
+        print("DroneHandler Initted")
         self.drone = drone
         self.curPos = [0,0,0] # x,y,z
         # self.curRot = (0,0,0) # yaw, pitch, roll
@@ -14,9 +17,9 @@ class DroneHandler():
         self.movement = 0
         self.movementTime = -4
         
-        pitch_pid_data = (30, 0, .3) # Kp, Ki, Kd
+        pitch_pid_data = (30, .1, .3) # Kp, Ki, Kd
         throttle_pid_data = (100, 0, 0)
-        roll_pid_data = (70, 30, 0)
+        roll_pid_data = (70, .1, 0)
 
         self.roll_pid = PID(roll_pid_data[0],roll_pid_data[1],roll_pid_data[2], setpoint=0, output_limits=(-100,100))
         self.pitch_pid = PID(pitch_pid_data[0], pitch_pid_data[1], pitch_pid_data[2], setpoint=0, output_limits=(-100,100))
@@ -59,35 +62,39 @@ class DroneHandler():
         
     def sequential_movement(self,seq:list[tuple]):
         
+                
+        descriptions  =[
+            "move to yellow keyhole",
+            "through yellow keyhole",
+            "move to green keyhole",
+            "through green keyhole",
+            "go down to 3 feet",
+            "move to landing pad and land",
+        ]
         
-        if  np.all(np.less(np.abs(np.subtract(self.curPos, seq[self.movement])), [0.7]*3)) or self.movement >= len(seq):
+        print(f"{descriptions[self.movement]}" + 
+              f"movement Numnber {self.movement}" +
+            # f" looking for: {seq[self.movement]}" +
+            #   f"error: {np.average(np.subtract(self.curPos, seq[self.movement]))} "
+           f" errors: {np.less(np.abs(np.subtract(self.curPos, seq[self.movement])),[.07]*3 )}"
+        )
+        
+        if  np.all(np.less(np.abs(np.subtract(self.curPos, seq[self.movement])), [0.6]*3)) or self.movement > len(seq):
             self.movement += 1
-            if self.movement == len(seq):
+            if self.movement >= len(seq):
                 print("hovering for 3 seconds")
                 self.drone.hover(3)
                 self.drone.land()
+                self.movement = 0
+                return True
                 
             self.movementTime = self.get_latest_time()
             
-        else:
-            return
             
 
 
-            
-        
-        
-        descriptions  =[
-            "move to yellow keyhole",
-            "move to green keyhole",
-            "move to landing pad",
-        ]
-        
         self.move(seq[self.movement])
-        print(f"{descriptions[self.movement]}" + 
-              f" looking for: {seq[self.movement]}" 
-            #   f"error: {np.average(np.subtract(self.curPos, seq[self.movement]))} "
-        )
+        
               
                 
                 
@@ -127,9 +134,7 @@ class DroneHandler():
             self.drone.set_drone_LED(*GREEN,100)
         elif 180 <= hue < 300:
             color = "Blue"
-            self.drone.set_drone_LED(*BLUE,100)
-        
-        color = self.drone.get_color_data()
-        
+            self.drone.set_drone_LED(*BLUE,100) 
+        return color        
         
         
