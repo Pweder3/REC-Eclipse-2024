@@ -1,10 +1,10 @@
 from codrone_edu.drone import *
-from DroneManager import DroneHandler
+from src.DroneManager import DroneHandler
 import traceback
-from LiveGraph import LiveGraph
+from src.LiveGraph import LiveGraph
 from FakeDrone import FakeDrone
 import numpy as np
-from Course import *
+from src.Course import *
 
 
 # plotData = [grain,dataAmount,dataNames,overAllName,colors]

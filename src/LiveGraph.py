@@ -4,7 +4,7 @@ import matplotlib
 matplotlib.use('TkAgg')
 import math
 import numpy as np
-from plot import Plot
+from src.plot import Plot
 
 class LiveGraph():
     
