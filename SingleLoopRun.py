@@ -30,13 +30,10 @@ try:
     testPoints = [2.7232189178466797, inchtoM(68)]
         
     droneManager.sequential_movement([
-        (Y_KEYHOLE_XYZ[0] - inchtoM(4),0,Y_KEYHOLE_BASE_HEIGHT + (KEYHOLE_DIAMATER/2)), # moves infront of yellow keyhole
-        (G_KEYHOLE_XY[0] ,-inchtoM(1),Y_KEYHOLE_BASE_HEIGHT + (KEYHOLE_DIAMATER/2)),
-        (G_KEYHOLE_XY[0] ,-inchtoM(1),(G_KEYHOLE_BASE_HEIGHT + KEYHOLE_DIAMATER/2)), #goes throught the yellow keyhole and infront of green keyhole
-        (G_KEYHOLE_XY[0] ,inchtoM(-1),(G_KEYHOLE_BASE_HEIGHT + KEYHOLE_DIAMATER/2)),
-        (G_KEYHOLE_XY[0] ,inchtoM(12*3),(G_KEYHOLE_BASE_HEIGHT + KEYHOLE_DIAMATER/2)),
-        (LANDING_PAD[0], testPoints[1],inchtoM(3*12)), # goes though the green keyhole and gets ready to land
-    ],timeOut= 5)
+        (Y_KEYHOLE_XYZ[0]+ inchtoM(12) ,0,Y_KEYHOLE_XYZ[2]), # moves infront of yellow keyhole
+        (Y_KEYHOLE_XYZ[0] ,inchtoM(15),Y_KEYHOLE_XYZ[2] - inchtoM(5)),
+    ],timeOut= 100)
+    
     
     drone.set_drone_LED(
     *droneManager.get_pad_color(20),100
